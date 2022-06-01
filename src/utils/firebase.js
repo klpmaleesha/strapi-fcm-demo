@@ -16,10 +16,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 let messaging;
 
 try {
-  messaging = getMessaging(app);
-  messaging.usePublicVapidKey(
-    "BJmrf4R0XtHTJjJ9KleVHlN7PQaQNS1wEE1yXz9Pk7IfasLBqvDzxgg4vs-WlMpfLRf2WlSEejxG5XR0FBuZhsM"
-  );
+  if (typeof window !== "undefined") messaging = getMessaging(app);
 } catch (error) {
   console.log(error);
 }
