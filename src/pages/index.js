@@ -5,18 +5,25 @@ import { useEffect } from "react";
 import { getToken } from "firebase/messaging";
 import { messaging } from "../utils/firebase";
 import Push from "push.js";
+import axios from "axios";
 
 export default function Home() {
   useEffect(() => {
     try {
       getToken(messaging)
-        .then(async (currentToken) => {
-          if (currentToken) {
-            console.log(currentToken);
+        .then(async (token) => {
+          if (token) {
+            axios
+              .post("http://localhost:1337/strapi-fcm/users/tokens", {
+                token: token,
+              })
+              .then((res) => {
+                console.log(res.data);
+              });
           } else {
             Push.Permission.request(
               () => {
-                console.log(currentToken);
+                console.log(token);
               },
               () => {
                 console.log("denied");
